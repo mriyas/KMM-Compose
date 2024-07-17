@@ -140,14 +140,14 @@ fun ProductItem(
                 Spacer(modifier = Modifier.height(3.dp))
                 Text(
                     modifier = Modifier.padding(2.dp),
-                    text = "Preparation Time: ${product.price} Mnts",
+                    text = "Price : ${product.price} USD",
                     fontWeight = FontWeight.Normal,
                     style = MaterialTheme.typography.caption,
                     color = Color.Gray,
                 )
                 Text(
                     modifier = Modifier.padding(2.dp),
-                    text = "Cooking Time: ${product.discountPercentage} Mnts",
+                    text = "Discount : ${product.discountPercentage} %",
                     fontWeight = FontWeight.Normal,
                     style = MaterialTheme.typography.caption,
                     color = Color.Gray,
