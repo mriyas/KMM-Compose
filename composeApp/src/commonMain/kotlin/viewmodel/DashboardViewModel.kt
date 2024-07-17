@@ -1,5 +1,6 @@
 package viewmodel
 
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
@@ -18,9 +19,13 @@ class DashboardViewModel(private val networkRepository: NetworkRepository) {
     val homeViewState = _homeViewState.asStateFlow()
 
     suspend fun getProducts() {
-        CoroutineScope(Dispatchers.IO).launch {
+        val handler = CoroutineExceptionHandler { _, exception ->
+            println("CoroutineExceptionHandler got $exception")
+        }
+
+        CoroutineScope(Dispatchers.IO + handler).launch {
             try {
-                networkRepository.getRecipes().collect{ response ->
+                networkRepository.getProducts().collect{ response ->
                     when(response.status){
                         ApiStatus.LOADING->{
                             _homeState.update { it.copy(isLoading = true) }

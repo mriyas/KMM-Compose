@@ -29,7 +29,7 @@ kotlin {
             isStatic = true
         }
     }
-
+    task("testClasses")
     sourceSets {
         val desktopMain by getting
 
@@ -50,9 +50,12 @@ kotlin {
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.client.call.logging)
             implementation(libs.kotlin.serialization)
+            implementation(libs.kotlinx.datetime)
+           // implementation(libs.kotlinx.datetime.jvm)
             //  implementation(libs.kotlinx.coroutines.core)
             implementation(libs.media.kamel)
             implementation(libs.koin.compose)
+           // implementation(androidx.core)
         }
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)

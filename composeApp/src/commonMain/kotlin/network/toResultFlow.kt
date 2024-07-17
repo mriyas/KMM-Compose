@@ -3,17 +3,18 @@ package network
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-fun <T> toResultFlow(call: suspend () -> NetWorkResult<T?>) : Flow<NetWorkResult<T>> {
+fun <T> toResultFlow(call: suspend () -> T): Flow<NetWorkResult<T>> {
     return flow {
         emit(NetWorkResult.Loading(true))
-        val c = call.invoke()
-        c.let { response ->
-            try {
-                println("response${response.data}")
-                emit(NetWorkResult.Success(response.data))
-            } catch (e: Exception) {
-                emit(NetWorkResult.Error(null, e.toString()))
+        try {
+            val c = call.invoke()
+            c.let { response ->
+
+                println("response${response}")
+                emit(NetWorkResult.Success(response))
             }
+        } catch (e: Exception) {
+            emit(NetWorkResult.Error(null, e.toString()))
         }
     }
 }

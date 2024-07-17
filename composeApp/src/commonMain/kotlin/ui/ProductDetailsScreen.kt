@@ -31,16 +31,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
-import models.Recipe
-import ui.components.BulletList
+import models.Product
 import ui.components.RecipeTags
+import ui.components.ReviewsList
 
 @Composable
 fun RecipeDetailsScreen(
-    recipe: Recipe,
+    product: Product,
     onDismiss: () -> Unit,
 ) {
-   // val recipe = recipeState?.value ?: return
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -52,7 +51,7 @@ fun RecipeDetailsScreen(
                 Box(contentAlignment = Alignment.TopEnd) {
 
                     KamelImage(
-                        resource = asyncPainterResource(data = recipe.image),
+                        resource = asyncPainterResource(data = product.images[0]),
                         contentDescription = null,
                         modifier = Modifier.height(300.dp).fillMaxWidth()
                             .clip(MaterialTheme.shapes.medium),
@@ -87,43 +86,44 @@ fun RecipeDetailsScreen(
                 Column(modifier = Modifier.padding(10.dp)) {
                     Text(
                         modifier = Modifier.padding(2.dp),
-                        text = recipe.name,
+                        text = product.title,
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.h6,
                         color = Color.Black,
                     )
-                    RecipeTags(recipe.tags)
+                    RecipeTags(product.tags)
                     Text(
                         modifier = Modifier.padding(2.dp),
-                        text = "Preparation Time: ${recipe.prepTimeMinutes} Mnts",
+                        text = "Price: ${product.price} USD",
                         fontWeight = FontWeight.Normal,
                         style = MaterialTheme.typography.caption,
                         color = Color.Gray,
                     )
                     Text(
                         modifier = Modifier.padding(2.dp),
-                        text = "Cooking Time: ${recipe.cookTimeMinutes} Mnts",
+                        text = "Discount: ${product.discountPercentage} USD",
                         fontWeight = FontWeight.Normal,
                         style = MaterialTheme.typography.caption,
                         color = Color.Gray,
                     )
                     Text(
                         modifier = Modifier.padding(2.dp),
-                        text = "Level: ${recipe.difficulty}",
+                        text = "Stock Available: ${product.stock}",
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.button,
-                        color = Color(red = 0.1f, green = 0.8f, blue = 0.0f)
+                        color = Color.Black
                     )
-
-                    BulletList(
-                        title = "Ingredients",
-                        items = recipe.ingredients,
-                        lineSpacing = 8.dp,
+                    Text(
+                        modifier = Modifier.padding(2.dp),
+                        text = "Description: ${product.description}",
+                        fontWeight = FontWeight.Normal,
+                        style = MaterialTheme.typography.button,
+                        color = Color.Gray
                     )
                     Spacer(modifier = Modifier.height(16.dp))
-                    BulletList(
-                        title = "Instructions",
-                        items = recipe.instructions,
+                    ReviewsList(
+                        title = "Ratings",
+                        items = product.reviews,
                         lineSpacing = 8.dp,
                     )
                     Spacer(modifier = Modifier.height(100.dp))

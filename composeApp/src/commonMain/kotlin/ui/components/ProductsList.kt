@@ -35,16 +35,16 @@ import androidx.compose.ui.unit.dp
 import io.kamel.image.KamelImage
 import io.kamel.image.asyncPainterResource
 import kotlinx.coroutines.launch
-import models.Recipe
+import models.Product
 import ui.RecipeDetailsScreen
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-internal fun RecipeCard(list: List<Recipe>) {
+internal fun ProductsList(list: List<Product>) {
     val bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
     val scaffoldState = rememberBottomSheetScaffoldState(bottomSheetState = bottomSheetState)
     val scope = rememberCoroutineScope()
-    val selectedData = mutableStateOf<Recipe>(list[0])
+    val selectedData = mutableStateOf<Product>(list[0])
 
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
@@ -83,7 +83,7 @@ internal fun RecipeCard(list: List<Recipe>) {
                 modifier = Modifier.fillMaxSize(),
                 content = {
                     items(list.size) { index ->
-                        RecipeItem(list[index]) {
+                        ProductItem(list[index]) {
                             scope.launch {
                                 selectedData.value = list[index]
                                 bottomSheetState.expand()
@@ -101,8 +101,8 @@ internal fun RecipeCard(list: List<Recipe>) {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun RecipeItem(
-    recipe: Recipe,
+fun ProductItem(
+    product: Product,
     onClick: () -> Unit,
 ) {
     Card(
@@ -119,7 +119,7 @@ fun RecipeItem(
 
         Column(modifier = Modifier.padding(10.dp)) {
             KamelImage(
-                resource = asyncPainterResource(data = recipe.image),
+                resource = asyncPainterResource(data = product.images[0]),
                 contentDescription = null,
                 modifier = Modifier.height(150.dp).fillMaxWidth().clip(MaterialTheme.shapes.medium),
                 contentScale = ContentScale.Crop,
@@ -130,7 +130,7 @@ fun RecipeItem(
             Column {
                 Text(
                     modifier = Modifier.padding(2.dp),
-                    text = recipe.name,
+                    text = product.title,
                     maxLines = 2,
                     minLines = 2,
                     fontWeight = FontWeight.Bold,
@@ -140,19 +140,19 @@ fun RecipeItem(
                 Spacer(modifier = Modifier.height(3.dp))
                 Text(
                     modifier = Modifier.padding(2.dp),
-                    text = "Preparation Time: ${recipe.prepTimeMinutes} Mnts",
+                    text = "Preparation Time: ${product.price} Mnts",
                     fontWeight = FontWeight.Normal,
                     style = MaterialTheme.typography.caption,
                     color = Color.Gray,
                 )
                 Text(
                     modifier = Modifier.padding(2.dp),
-                    text = "Cooking Time: ${recipe.cookTimeMinutes} Mnts",
+                    text = "Cooking Time: ${product.discountPercentage} Mnts",
                     fontWeight = FontWeight.Normal,
                     style = MaterialTheme.typography.caption,
                     color = Color.Gray,
                 )
-                RecipeTags(recipe.tags)
+                RecipeTags(product.tags)
             }
         }
     }

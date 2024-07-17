@@ -8,15 +8,9 @@ import models.ApiResponse
 
 class NetworkRepository(private val httpClient: HttpClient) {
 
-     fun getRecipes(): Flow<NetWorkResult<ApiResponse?>> {
+    fun getProducts(): Flow<NetWorkResult<ApiResponse?>> {
         return toResultFlow {
-                val response = httpClient.get("https://dummyjson.com/recipes").body<ApiResponse>()
-                 NetWorkResult.Success(response)
+            httpClient.get("https://dummyjson.com/products").body<ApiResponse>()
         }
-    }
-
-
-    private suspend inline fun <reified T> getRecipes(): T  {
-        return httpClient.get("https://dummyjson.com/recipes").body<T>()
     }
 }
